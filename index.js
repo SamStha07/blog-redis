@@ -12,10 +12,9 @@ require('./models/Blog');
 require('./services/passport');
 require('./services/cache');
 
-// mongoose.Promise = global.Promise;
 const connectDB = async () => {
   try {
-    const connect = await mongoose.connect(keys.mongoURI, {
+    const connect = await mongoose.connect(process.env.mongoURI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
