@@ -4,6 +4,8 @@ const cookieSession = require('cookie-session');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const keys = require('./config/keys');
+const path = require('path');
+const env = require('dotenv');
 
 require('./models/User');
 require('./models/Blog');
@@ -27,6 +29,8 @@ connectDB();
 
 const app = express();
 
+env.config();
+
 app.use(bodyParser.json());
 app.use(
   cookieSession({
@@ -40,12 +44,16 @@ app.use(passport.session());
 require('./routes/authRoutes')(app);
 require('./routes/blogRoutes')(app);
 
-if (['production'].includes(process.env.NODE_ENV)) {
-  app.use(express.static('client/build'));
+if (process.env.NODE_ENV === 'production') {
+  const __dirname = path.resolve();
+  app.use(express.static(path.join(__dirname, '/client/build')));
 
-  const path = require('path');
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve('client', 'build', 'index.html'));
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running...');
   });
 }
 
