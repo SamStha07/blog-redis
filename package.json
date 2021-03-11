@@ -22,7 +22,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jest": "^26.6.3",
-    "mongoose": "^5.11.19",
+    "mongoose": "^5.11.15",
     "nodemon": "^1.19.4",
     "passport": "^0.3.2",
     "passport-google-oauth20": "^2.0.0",
