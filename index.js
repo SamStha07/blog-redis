@@ -12,6 +12,8 @@ require('./models/Blog');
 require('./services/passport');
 require('./services/cache');
 
+env.config();
+
 const connectDB = async () => {
   try {
     const connect = await mongoose.connect(process.env.mongoURI, {
@@ -28,13 +30,11 @@ connectDB();
 
 const app = express();
 
-env.config();
-
 app.use(bodyParser.json());
 app.use(
   cookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000,
-    keys: [keys.cookieKey],
+    keys: [process.env.cookieKey],
   })
 );
 app.use(passport.initialize());
